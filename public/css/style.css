@@ -1,0 +1,31 @@
+html{
+	font-size:100%;
+}
+body{
+	padding:0;
+	margin:0;
+	height: 100vh;
+	width: 50vh;
+
+	font-family: Gotham SSm A,Gotham SSm B,Gotham Rounded SSm A,Gotham Rounded SSm B,sans-serif;
+	font-weight: lighter;
+	color:#3b3d42;
+	font-size: 1.1rem;
+}
+input{
+ 	padding:2px;
+ 	/*margin-left:.5rem;*/
+ 	font-size: .7rem;
+ 	border-style: solid;
+ 	border-radius: 10px;
+ 	border -width: .2rem;
+ }
+.title{
+	text-align:center;
+}
+.login{
+	text-align:center;
+}
+ input:focus,select:focus,textarea:focus,button:focus {
+    outline: none;
+}
