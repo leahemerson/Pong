@@ -8,7 +8,6 @@ body{
 	width: 50vh;
 	text-align: center;
 	font-family: font,Gotham SSm A,sans-serif;
-	font-weight: lighter;
 	color:#3b3d42;
 	font-size: 4rem;
 }
@@ -20,16 +19,49 @@ input{
  	border-radius: 10px;
  	border -width: .2rem;
  }
- @font-face {
-    font-family: "font";
-    src: url('../assets/andrey/Andrey.ttf'); 
-}
 .title{
 	text-align:center;
 }
-.login{
+#landing_page{
+	display:inline-block;
+}
+#login{
 	text-align:center;
+	display:none;
+}
+#new_user{
+	display:none;
 }
  input:focus,select:focus,textarea:focus,button:focus {
     outline: none;
+}
+@font-face {
+    font-family: "font";
+    src: url('../assets/andrey/Andrey.ttf'); 
+}
+canvas {
+    padding: 0;
+    margin: auto;
+    display: block;
+    height:75%;
+    position: absolute;
+    top: 20vh;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+}
+a{
+	text-decoration: none;
+	color:black;
+}
+a:hover{
+	opacity: .7;
+}
+button{
+	text-align: center;
+	font-family: font,Gotham SSm A,sans-serif;
+	color:#3b3d42;
+	font-size: 4rem;
+	border: none;
 }
