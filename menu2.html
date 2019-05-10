@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser-arcade-physics.min.js"></script>
+</head>
+<body>
+    <p>
+    Speed: </p>
+    <script>var player1color;
+
+function makeButton(name, x, y)
+{
+    var button = this.add.image(x, y, 'button', 0).setInteractive();
+    button.name = name;
+    button.setScale(2, 1.5);
+
+    var text = this.add.bitmapText(x - 40, y - 8, 'nokia', name, 16);
+    text.x += (button.width - text.width) / 2;
+
+if(button.name==='Single Player')
+{
+        button.setInteractive();
+
+        button.once('pointerup', function () {
+
+            this.scene.start('char1');
+
+        }, this);
+    } 
+
+   else if(button.name==='MultiPlayer')
+{
+        button.setInteractive();
+
+        button.once('pointerup', function () {
+
+            this.scene.start('char2');
+
+        }, this);
+}
+
+  /* var markers = [
+    { name: 'Red', color:0xFF0000},
+    { name: 'Green',color: 0x60BB37},
+    { name: 'Pink',color: 0xF2ABA0},
+    { name: 'Purple',color: 0x9900FF},
+    { name: 'Orange',color: 0xFF9900},
+    { name: 'Teal',color: 0x00FFB0},
+    { name: 'Aqua',color: 0x2EBD97},
+    { name: 'Brown',color: 0x45290B},
+    { name: 'Yellow',color: 0xFFFF00},
+    { name: 'Light Blue', color: 0x6666FF},
+    { name: 'Light Green',color: 0x00FF00},
+    { name: 'Blue',color:0x353582},
+    { name: 'Light Purple',color: 0xB4A7D6},
+    { name: 'Light Red',color: 0xFF4141},
+    { name: 'Dark Red',color: 0xAB0000},
+    { name: 'Dark Blue', color:0x161635}
+          ];
+
+       player1color=0x161635;
+           
+              button.setInteractive();
+
+        button.once('pointerup', function () {
+ answer = markers[i].color;
+            this.scene.start('game');
+
+        }, this);
+           */
+        
+               //player1 = this.physics.add.rectangle(750, 300, 0xff6699).setImmovable();
+              
+          }
+
+
+
+
+var Preloader = new Phaser.Class({
+
+    Extends: Phaser.Scene,
+
+    initialize:
+
+    function Preloader ()
+    {
+        Phaser.Scene.call(this, { key: 'preloader' });
+    },
+
+    preload: function ()
+    {
+        this.load.image('bg', 'assets/skies/space3.png');
+
+    this.load.spritesheet('button', 'assets/ui/flixel-button.png', { frameWidth: 80, frameHeight: 20 });
+
+    this.load.bitmapFont('nokia', 'assets/fonts/bitmap/nokia16black.png', 'assets/fonts/bitmap/nokia16black.xml');
+
+        this.load.atlas('gems', 'assets/tests/columns/gems.png', 'assets/tests/columns/gems.json');
+        this.load.image('buttonBG', 'assets/sprites/button-bg.png');
+        this.load.image('buttonText', 'assets/sprites/button-text.png');
+        this.load.image('ayu', 'assets/pics/ayu.png');
+        this.load.spritesheet('ball', '../assets/ball.png', { frameWidth: 12, frameHeight: 12 });
+        this.load.spritesheet('brick0', '../assets/brick0.jpg', { frameWidth: 16, frameHeight: 32 });
+        this.load.spritesheet('brick1', '../assets/brick1.jpg',{ frameWidth: 16, frameHeight: 32 });
+        this.load.image('stars', '../assets/starfield.jpg',{ frameWidth: 512, frameHeight: 512 });
+    },
+
+    create: function ()
+    {
+        console.log('%c Preloader ', 'background: green; color: white; display: block;');
+
+        this.anims.create({ key: 'diamond', frames: this.anims.generateFrameNames('gems', { prefix: 'diamond_', end: 15, zeroPad: 4 }), repeat: -1 });
+        this.anims.create({ key: 'prism', frames: this.anims.generateFrameNames('gems', { prefix: 'prism_', end: 6, zeroPad: 4 }), repeat: -1 });
+        this.anims.create({ key: 'ruby', frames: this.anims.generateFrameNames('gems', { prefix: 'ruby_', end: 6, zeroPad: 4 }), repeat: -1 });
+        this.anims.create({ key: 'square', frames: this.anims.generateFrameNames('gems', { prefix: 'square_', end: 14, zeroPad: 4 }), repeat: -1 });
+
+        this.scene.start('mainmenu');
+    }
+
+});
+
+var MainMenu = new Phaser.Class({
+
+    Extends: Phaser.Scene,
+
+    initialize:
+
+    function MainMenu ()
+    {
+        Phaser.Scene.call(this, { key: 'mainmenu' });
+        window.MENU = this;
+    },
+
+    create: function ()
+    {
+            var bg = this.add.image(400, 300, 'bg');
+    bg.setScale(800/bg.width, 600/bg.height);
+Menu = this.add.text(100, 20, 'Pong Menu', { font: '100px Arial', fill: '#fff' });
+        makeButton.call(this, 'Single Player', 350, 200 + 1*40);
+        makeButton.call(this, 'MultiPlayer', 350, 200 + 2*40);
+
+
+    }
+
+});
+
+var Char1 = new Phaser.Class({
+
+    Extends: Phaser.Scene,
+
+    initialize:
+
+        function Char1 ()
+    {
+        Phaser.Scene.call(this, { key: 'char1' });
+        window.CHAR1 = this;
+    
+        this.controls;
+        this.track;
+        this.text;
+    },
+      create: function ()
+    {
+            var bg = this.add.image(400, 300, 'bg');
+    bg.setScale(800/bg.width, 600/bg.height);
+Character = this.add.text(50, 20, 'One Player:', { font: '100px Arial', fill: '#fff' });
+Character2 = this.add.text(70, 120, 'Pick Your Character Color:', { font: '50px Arial', fill: '#fff' });
+         var markers = [
+    { name: 'Red'},
+    { name: 'Green'},
+    { name: 'Pink'},
+    { name: 'Purple'},
+    { name: 'Orange'},
+    { name: 'Teal'},
+    { name: 'Aqua'},
+    { name: 'Brown'},
+    { name: 'Yellow'},
+    { name: 'Blue'},
+    { name: 'Light Green'},
+    { name: 'Light Blue'},
+    { name: 'Light Purple'},
+    { name: 'Light Red'},
+    { name: 'Dark Red'},
+    { name: 'Dark Blue'}
+];
+for(i=0; i<markers.length; i++)
+       {
+           if(i<=3)
+           {
+        makeButton.call(this, markers[i].name, 110, 200 + (i+1)*60); }
+       
+        if(i>3 &&i<=7)
+           {
+        makeButton.call(this, markers[i].name, 110+190, 200 + (i-3)*60); }
+         if(i>7 &&i<=11)
+           {
+        makeButton.call(this, markers[i].name, 110+190*2, 200 + (i-7)*60); }
+         if(i>11 &&i<=15)
+           {
+        makeButton.call(this, markers[i].name, 110+190*3, 200 + (i-11)*60); }
+       }
+    }
+
+});
+
+
+var Game = new Phaser.Class({
+    Extends: Phaser.Scene,
+    initialize:
+
+    function Game ()
+    {
+        Phaser.Scene.call(this, { key: 'game' });
+       this.player1;
+       // this.player2;
+        this.ball;
+    },
+
+create: function ()
+    {
+
+         this.keyW=this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+    this.keyS=this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        background=this.add.image(400, 300, 'sky');
+       var particles = this.add.particles('red');
+        var emitter = particles.createEmitter({
+            speed: 100,
+            scwale: { start: 1, end: 0 },
+            blendMode: 'ADD'
+        });
+        logo = this.physics.add.image(300, 10,'logo');
+        logo.setScale(.3, .3);
+       // var logo = this.physics.add.image(300, 100,'logo');
+       // logo.setVelocity(speed2, speed2);
+        logo.setBounce(1.1, 1.1);
+        logo.setGravityY(-110);
+        logo.setCollideWorldBounds(true);
+        logo.setVelocity(50,50);
+        emitter.startFollow(logo);
+        player = this.physics.add.sprite(800, 650, 'dude');
+        player.setScale(.2, .8);
+       this.physics.add.collider(logo,player,hitPlayer1);
+//player.body.setGravityY(0);
+    //player.body.velocity.y = 0;
+player.setCollideWorldBounds(true);
+        player2 = this.physics.add.sprite(0, 650, 'dudette');
+        player2.setScale(.2, .4);
+       this.physics.add.collider(logo,player2,hitPlayer2);
+//player.body.setGravityY(0);
+    //player.body.velocity.y = 0;
+player2.setCollideWorldBounds(true);
+this.anims.create({
+    key: 'up',
+    frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
+    frameRate: 10,
+    repeat: -1
+});
+this.anims.create({
+    key: 'turn',
+    frames: [ { key: 'dude', frame: 4 } ],
+    frameRate: 20
+});
+this.anims.create({
+    key: 'down',
+    frames: this.anims.generateFrameNumbers('dude', { start: 5, end: 8 }),
+    frameRate: 10,
+    repeat: -1
+});
+this.anims.create({
+    key: 'shift',
+    frames: this.anims.generateFrameNumbers('dudette', { start: 9, end: 12 }),
+    frameRate: 10,
+    repeat: -1
+});
+this.anims.create({
+    key: 'turn2',
+    frames: [ { key: 'dudette', frame: 13 } ],
+    frameRate: 20
+});
+this.anims.create({
+    key: 'space',
+    frames: this.anims.generateFrameNumbers('dudette', { start: 14, end: 17 }),
+    frameRate: 10,
+    repeat: -1
+});
+Player2_score = this.add.text(10, 16, 'Player 1 Score:'+score1, { fontSize: '2rem', fill: 'white' });
+Player1_score = this.add.text(400, 16, 'Player 2 Score:'+score2, { fontSize: '2rem', fill: 'white' });
+     },
+      hitPlayer1: function (logo, player)
+    {
+        var diff = 0;
+        if (logo.x < player.x)
+        {
+            //  Ball is on the left-hand side of the paddle
+            diff = player.y - logo.y;
+            logo.setVelocityX(-10 * diff);
+        }
+        else if (logo.y > player.y)
+        {
+            //  Ball is on the right-hand side of the paddle
+            diff = logo.y -player.y;
+            logo.setVelocityX(10 * diff);
+        }
+        else
+        {
+            //  Ball is perfectly in the middle
+            //  Add a little random X to stop it bouncing straight up!
+            logo.setVelocityX(2 + Math.random() * 8);
+        }
+    },
+     hitPlayer2: function (logo, player2)
+    {
+        var diff = 0;
+        if (logo.x < player2.x)
+        {
+            //  Ball is on the left-hand side of the paddle
+            diff = player2.y - logo.y;
+            logo.setVelocityX(-10 * diff);
+        }
+        else if (logo.y > player2.y)
+        {
+            //  Ball is on the right-hand side of the paddle
+            diff = logo.y -player2.y;
+            logo.setVelocityX(10 * diff);
+        }
+        else
+        {
+            //  Ball is perfectly in the middle
+            //  Add a little random X to stop it bouncing straight up!
+            logo.setVelocityX(2 + Math.random() * 8);
+        }
+    },
+
+update: function ()
+{cursors = this.input.keyboard.createCursorKeys();
+ if (cursors.up.isDown) {
+    player.body.velocity.y = -200;    
+  } else if (cursors.down.isDown) {
+    player.body.velocity.y = 200;
+  }
+ if (this.keyW.isDown){
+    player2.body.velocity.y = -200;
+       
+  } else if (this.keyS.isDown) {
+    player2.body.velocity.y = 200;
+  }
+  if(logo.body.blocked.left){
+score2=score2+1;
+logo.body.x=300;
+logo.body.y=10;
+logo.body.velocity.x = 50; 
+logo.body.velocity.y = 50;  
+}
+ if(logo.body.blocked.right){
+score1=score1+1;
+logo.x=300;
+logo.y=10;
+logo.body.velocity.y = 50;  
+logo.body.velocity.x = 50; 
+  }
+  if(score1==10||score2==10)
+  {
+      this.scene.start('gameover');
+  }
+  Player1_score.setText('Player 1 Score:'+score1);
+Player2_score.setText('Player 2 Score:'+score2);
+//need to fix player 2 score its not working
+}
+});
+
+
+var GameOver = new Phaser.Class({
+
+    Extends: Phaser.Scene,
+
+    initialize:
+
+    function GameOver ()
+    {
+        Phaser.Scene.call(this, { key: 'gameover' });
+        window.OVER = this;
+    },
+
+    create: function ()
+    {
+
+        this.add.text(300, 500, 'Game Over - Click to start restart', { font: '200px Courier', fill: '#00ff00' });
+
+        this.input.once('pointerup', function (event) {
+
+            this.scene.start('mainmenu');
+
+        }, this);
+    }
+
+});
+
+var config = {
+    type: Phaser.AUTO,
+    width: 800,
+    height: 600,
+    backgroundColor: '#000000',
+    parent: 'phaser-example',
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 100 },
+            debug: true
+        }
+    },
+    scene: [ Preloader, MainMenu,Char1, Game, GameOver ]
+};
+
+var game = new Phaser.Game(config);
+        </script>)
+
+</body>
+</html>
