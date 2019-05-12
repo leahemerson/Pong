@@ -22,6 +22,32 @@ input{
 .title{
 	text-align:center;
 }
+img{
+	width:50px;
+}
+.overlay {
+  position: absolute;
+  z-index: 1000;
+  padding: 30px;
+}
+.profileChoice{
+	display = none;
+}
+#gameCanvas{
+	display : none;
+	    padding: 0;
+   	 margin: auto;
+   	 display: none;
+   	 height:75%;
+   	 position: absolute;
+   	 top: 20vh;
+    	bottom: 0;
+    	left: 0;
+   	 right: 0;
+}
+canvas{
+display: none;
+}
 #landing_page{
 	display:inline-block;
 }
@@ -32,6 +58,9 @@ input{
 #new_user{
 	display:none;
 }
+#game{
+	display:none;
+}
  input:focus,select:focus,textarea:focus,button:focus {
     outline: none;
 }
@@ -39,18 +68,7 @@ input{
     font-family: "font";
     src: url('../assets/andrey/Andrey.ttf'); 
 }
-canvas {
-    padding: 0;
-    margin: auto;
-    display: block;
-    height:75%;
-    position: absolute;
-    top: 20vh;
-    bottom: 0;
-    left: 0;
-    right: 0;
 
-}
 a{
 	text-decoration: none;
 	color:black;
