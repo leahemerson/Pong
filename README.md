@@ -2,8 +2,8 @@
 # Pong
 Multi User Web Game
 # Tasks
-1. ~~Create an SQLite3 database for user data
- ~~Log in information
+~~1. Create an SQLite3 database for user data
+Log in information
   username (TEXT)
   password (TEXT) - use MD5 hashing (do NOT store actual password in plaintext)
   User stats
@@ -12,7 +12,7 @@ Multi User Web Game
   ... (stats will vary based on game)
   ...
 2. Create a login page for the app
- ~~Allow new users to create a username and password
+~~Allow new users to create a username and password
   Allow existing users to log in
 3. Gameplay
   ~~Complete single player gameplay~~~~~~
