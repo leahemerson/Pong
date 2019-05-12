@@ -28,3 +28,4 @@ Log in information
 ~~7. Allow users to select an avatar
   Have a predefined list of 16+ images to select from~~
 ~~8. Create a second mode for your game (e.g. for Solitare use 2 decks of cards, for a racing game create a second level, etc.) 
+ 
