@@ -2,24 +2,27 @@ html{
 	font-size:100%;
 }
 body{
-	padding:0;
-	margin:0;
+	padding:0px;
+	margin:0px;
 	height: 100vh;
-	width: 50vh;
+	width: 100vw;
 	text-align: center;
-	font-family: font,Gotham SSm A,sans-serif;
+	font-family:font,  Gotham SSm A,sans-serif;
 	color:#3b3d42;
-	font-size: 4rem;
+	font-size: 3rem;
+	line-height:0px;
+	postion: relative;
 }
 input{
  	padding:2px;
- 	/*margin-left:.5rem;*/
+ 	
  	font-size: 1.5rem;
  	border-style: solid;
  	border-radius: 10px;
  	border -width: .2rem;
  }
 .title{
+	font-size: 4rem;
 	text-align:center;
 }
 img{
@@ -33,7 +36,13 @@ img{
 .profileChoice{
 	display = none;
 }
-#gameCanvas{
+.headers{
+	font-size: 3rem;
+	/*font-size: 4rem;*/
+	font:font,Gotham SSm A,sans-serif;
+}
+
+/*#gameCanvas {
 	display : none;
 	    padding: 0;
    	 margin: auto;
@@ -44,21 +53,52 @@ img{
     	bottom: 0;
     	left: 0;
    	 right: 0;
+}*/
+#myAnimation{
+	list-style:none;
+	position:absolute;
+	font-size:3rem;  
+  	left: -200px;
+ 	 z-index: 10;
+  	animation-duration: 8s;
+  	animation-name: goRight;
 }
-canvas{
-display: none;
+
+@keyframes goRight {
+  from {
+    transform: translate(0,0);
+
+  }
+
+  to {
+    transform: translate(100vw,0);
+
+	display:none;
+  }
+}
+}
+canvas{	
+	width:50%;
+	height:auto;
+}
+#app{
+	padding: 0px;
 }
 #landing_page{
+	font-size: 4rem;
 	display:inline-block;
 }
 #login{
+	font-size: 4rem;
 	text-align:center;
 	display:none;
 }
 #new_user{
+	font-size: 4rem;
 	display:none;
 }
 #game{
+	font-size: 4rem;
 	display:none;
 }
  input:focus,select:focus,textarea:focus,button:focus {
@@ -68,10 +108,22 @@ display: none;
     font-family: "font";
     src: url('../assets/andrey/Andrey.ttf'); 
 }
-
+.leaderBoard{
+	background-color: rgba(59, 61, 66, .5);
+	color:white;
+	border-style: dashed;
+	border-width:10px;
+	border-color: yellow;
+	/*padding-left:30vw;
+	padding-right: 30vw;*/
+	padding-bottom: 40vh;
+}
 a{
 	text-decoration: none;
 	color:black;
+}
+td{
+	font-size: 3rem;
 }
 a:hover{
 	opacity: .7;
@@ -82,4 +134,9 @@ button{
 	color:#3b3d42;
 	font-size: 4rem;
 	border: none;
+}
+label{
+	font:font,Gotham SSm A,sans-serif;
+	font-size: 4rem;
+
 }

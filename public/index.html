@@ -3,12 +3,13 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <!--<script src="https://cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser-arcade-physics.min.js"></script>
-    <script src ="scripts/game.js"></scripts>-->
+	<script src="https://cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser-arcade-physics.min.js"></script>
+    <script src ="scripts/game.js"></script>
     <script type="application/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script type="application/javascript" src="https://cdn.jsdelivr.net/npm/vue"></script>
-    <script type="application/javascript" src="scripts/moviesearch.js"></script>
-	
+	<script src="socket.io.js"></script>
+    <script type="application/javascript" src="scripts/pong.js"></script>
+
    <link rel="stylesheet" href="css/style.css" />
 
 
@@ -17,10 +18,10 @@
 
     <div id="app" style="padding: 10px;">
      <div v-if="show_type =='search'" class= "overlay">
-        <div class="form-group row">
-            <label for="search">Username:</label>
+        <div class = "headers" class="form-group row" >
+            <label for="search" class = "headers">Username:</label>
             <input id="search" class="form-control" type="text" v-model ="username"></input>
-            <label for="search">Password:</label>
+            <label for="search" class = "headers">Password:</label>
             <input id="search" class="form-control" type="text" v-model  ="password"></input>
 
         </div>
@@ -31,14 +32,115 @@
             <button type="button" @click="LoginSearch" >Play</button>
         </div>
    </div>
-        <div v-if="show_type =='game'">
-	<canvas id='gameCanvas' width=640 height=480></canvas>
-            <h3>{{ search_results}} </h3>
-            <!--<p><span style="display: inline-block; width: 12rem;">Year:</span> {{ selected_item.start_year }} </p>
-            <p><span style="display: inline-block; width: 12rem;"> Genres:</span> {{ selected_item.genres }} </p>
-            <p><span style="display: inline-block; width: 12rem;">Type:</span> {{ selected_item.title_type }} </p>-->
+	<!--GAME PLAY -->
+	<div v-if="show_type =='game'"  >
+		<div id = "gameCanvas"></div>
+			 <div class = "headers"  class="form-group row">
+				 <span> <img   v-bind:src ="imageUrl"  alt="Profile Image" height="42" width="42"> <button @click = "getProfile()">{{ search_results[0]}} <button> <span>
+					<button><span style="display: inline-block; width:20rem;" @click = "getLeaderBoard"> LeaderBoard </button>
+					<button><span style="display: inline-block; width:20rem;" @click = "show_type = 'game'"> Game </button>
+			   </div>
+
+			  <p> Select Room</p>
+			   <select id="type" class="form=control" v-model="login_type">
+						<option v-for="room in rooms" :value="chosenRoom">{{ room }}</option>
+				</select>
+
+        <div class = "headers" >
+			<label for="room" class = "headers"  @click = "createRoom">Create Room</label>
+            <input id="room" type="text" v-model ="newRoom"></input>
+
         </div>
 
+
+				<div v-if= "chosenRoom != ''">
+					<p>Number of Players: {{ client_count }}</p>
+						<input type="text" v-model="new_message" value="" />
+						<button type="button" @click="SendMessage">Send</button>
+						<br />
+						<ul >
+							<li id ="myAnimation" v-for="message in chat_messages">{{message}}</li>
+						</ul>
+				   </div>
+
+	</div>
+
+
+	<!-- LEADERBOARD -->
+	<div v-if = "show_type == 'leaders'">
+	<table>
+	<td>
+	   <div class = "headers"  class="form-group row">
+			<span> <img   v-bind:src ="imageUrl"  alt="Profile Image" height="42" width="42"> <button @click = "getProfile()">{{ search_results[0]}} <button> <span>
+			<button><span style="display: inline-block; width:20rem;" @click = "getLeaderBoard"> LeaderBoard </button>
+			<button><span style="display: inline-block; width:20rem;" @click = "show_type = 'game'"> Game </button>
+		</div>
+
+
+		<table class = "leaderBoard">
+		<tbody v-for = "index in 4" :username = "leaders[index-1].username">
+            		<tr>
+               			<td >
+                     				 <span style="display: inline-block; width: 20rem;" class = "headers" value ="username">
+                      				<button  @click  ="getProfile">{{leaders[index-1].username}} </button>  </span>
+						{{leaders[index-1].BestScore}}
+                   		</td>
+                  </tr>
+		</table>
+	</td>
+	</table>
+	</div>
+
+	<div v-if = "show_type == 'profile'">
+
+
+		 <div class = "headers"  class="form-group row">
+			<span> <img   v-bind:src ="imageUrl"  alt="Profile Image" height="42" width="42"> <button @click = "getProfile()">{{ search_results[0]}} <button> <span>
+			<button><span style="display: inline-block; width:20rem;" @click = "getLeaderBoard"> LeaderBoard </button>
+			<button><span style="display: inline-block; width:20rem;" @click = "show_type = 'game'"> Game </button>
+		</div>
+		<table>
+		<tr>
+		<p><span class = "headers"  style="display: inline-block; width:20rem;"> Game History:</span><span class =" headers"> Best Score: {{bestScore}}</span> </p>
+		</tr>
+		<tr>
+		<table>
+			<tbody v-for = "index in 4">
+                  <tr>
+                    <td>
+                      <p>
+                      <span style="display: inline-block; width: 20rem;">
+                        {{statistics[index-1].Date}} : </span>
+                        {{statistics[index-1].Value}}
+                      </p>
+                    </td>
+                  </tr>
+             </tbody>
+         </table>
+	</tr>
+	</table>
+	<button @click = "ChooseProfileImage" class = "headers"> Change Profile Image </button>
+	<div id= "profileChoice">
+		<button ><img src ="assets/profile1.jpg" @click =GetProfileUrl(0) > </button>
+		<button ><img src ="assets/profile2.jpg" @click =GetProfileUrl(1) > </button>
+		<button ><img src ="assets/profile3.jpg" @click =GetProfileUrl(2) ></button>
+		<!--<img src ="assets/profile4.jpg" >
+		<img src ="assets/profile5.jpg" >
+		<img src ="assets/profile6.jpg" >
+		<img src ="assets/profile7.jpg" >
+		<img src ="assets/profile8.jpg" >
+		<img src ="assets/profile9.jpg" >
+		<img src ="assets/profile10.jpg" >
+		<img src ="assets/profile11.jpg" >
+		<img src ="assets/profile12.jpg" >
+		<img src ="assets/profile13.jpg" >
+		<img src ="assets/profile14.jpg" >
+		<img src ="assets/profile15.jpg" >-->
+
+	</div>
+	</div>
+
+	</div>
     </div>
 
 
