@@ -1,0 +1,22 @@
+{
+    "name": "dynamic_server",
+    "version": "1.0.0",
+    "description": "CISC 375 Dynamic Server Application",
+    "author": "Leah Emerson <leah.emerson@stthomas.edu>",
+    "contributors": [
+        "Leah Emersn <leah.emerson@stthomas.edu>"
+    ],
+    "repository": "https://github.com/tmarrinan/dynamic_server.git",
+    "main": "server.js",
+    "dependencies": {
+        "express": "^4.16.4",
+        "multiparty": "^4.2.1",
+        "socket.io": "^2.2.0",
+        "sqlite3": "^4.0.6",
+        "ws": "^7.0.0"
+    },
+    "engines": {
+        "node": ">= 10.0.0",
+        "npm": ">= 6.0.0"
+    }
+}
