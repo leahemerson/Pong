@@ -22,7 +22,7 @@ input{
  	border -width: .2rem;
  }
 .title{
-	font-size: 4rem;
+	font-size: 3rem;
 	text-align:center;
 }
 img{
@@ -32,6 +32,10 @@ img{
   position: absolute;
   z-index: 1000;
   padding: 30px;
+}
+#backStory{
+	font-family:Gotham SSm A,sans-serif;
+	line-height: 50px;
 }
 .profileChoice{
 	display = none;
@@ -85,16 +89,16 @@ canvas{
 	padding: 0px;
 }
 #landing_page{
-	font-size: 4rem;
-	display:inline-block;
+	font-size: 3rem;
+	padding-left:20rem;	
 }
 #login{
-	font-size: 4rem;
+	font-size: 3rem;
 	text-align:center;
 	display:none;
 }
 #new_user{
-	font-size: 4rem;
+	font-size: 3rem;
 	display:none;
 }
 #game{
@@ -108,6 +112,9 @@ canvas{
     font-family: "font";
     src: url('../assets/andrey/Andrey.ttf'); 
 }
+.chat{
+	font-size:2rem;
+}
 .leaderBoard{
 	background-color: rgba(59, 61, 66, .5);
 	color:white;
@@ -117,13 +124,14 @@ canvas{
 	/*padding-left:30vw;
 	padding-right: 30vw;*/
 	padding-bottom: 40vh;
+	margin-left: 30vw;
 }
 a{
 	text-decoration: none;
 	color:black;
 }
 td{
-	font-size: 3rem;
+	font-size: 2.5rem;
 }
 a:hover{
 	opacity: .7;
@@ -132,11 +140,11 @@ button{
 	text-align: center;
 	font-family: font,Gotham SSm A,sans-serif;
 	color:#3b3d42;
-	font-size: 4rem;
+	font-size: 3rem;
 	border: none;
 }
 label{
 	font:font,Gotham SSm A,sans-serif;
-	font-size: 4rem;
+	font-size: 3rem;
 
 }
