@@ -45,14 +45,14 @@
 			   </div>
 		<div v-if = "chosenRoom== ''"> 
         		<div class = "chat" >
-				<label for="room" class = "headers"  onclick = "createRoom()">Create Room</label>
+				<label for="room" class = "headers"  onclick = "createRoom()">Enter Room</label>
 			   	 <input id="room" type="text" v-model ="newRoom"></input>
         			
-				<span> Select Room : 
+				<!--<span> Select Room : 
 			   		<select id="type" class="form=control" v-model="login_type">
 					<option v-for="room in rooms" :value="chosenRoom">{{ room }}</option>
 					</select>
-				</span>
+				</span> -->
 
         		</div>
 		</div>
