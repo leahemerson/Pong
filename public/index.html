@@ -4,10 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 	<script src="https://cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser-arcade-physics.min.js"></script>
-    <script src ="scripts/game.js"></script>
+<!--    <script src ="scripts/game.js"></script>-->
     <script type="application/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script type="application/javascript" src="https://cdn.jsdelivr.net/npm/vue"></script>
-	<script src="socket.io.js"></script>
+	<!--<script src="socket.io.js"></script>-->
     <script type="application/javascript" src="scripts/pong.js"></script>
 
    <link rel="stylesheet" href="css/style.css" />
@@ -17,11 +17,13 @@
 <body onload="Init();">
 
     <div id="app" style="padding: 10px;">
-     <div v-if="show_type =='search'" class= "overlay">
-        <div class = "headers" class="form-group row" >
+     <div v-if="show_type =='search'" class= "overlay" id = "landing_page">
+       <h1> P O N G  </h1>
+	 <div class = "headers" class="form-group row" >
             <label for="search" class = "headers">Username:</label>
             <input id="search" class="form-control" type="text" v-model ="username"></input>
-            <label for="search" class = "headers">Password:</label>
+          	<br/>
+	    <label for="search" class = "headers">Password:</label>
             <input id="search" class="form-control" type="text" v-model  ="password"></input>
 
         </div>
@@ -31,6 +33,7 @@
             </select>
             <button type="button" @click="LoginSearch" >Play</button>
         </div>
+	<h3 @click = "aboutPage"> About </h3>
    </div>
 	<!--GAME PLAY -->
 	<div v-if="show_type =='game'"  >
@@ -40,21 +43,22 @@
 					<button><span style="display: inline-block; width:20rem;" @click = "getLeaderBoard"> LeaderBoard </button>
 					<button><span style="display: inline-block; width:20rem;" @click = "show_type = 'game'"> Game </button>
 			   </div>
+		<div v-if = "chosenRoom== ''"> 
+        		<div class = "chat" >
+				<label for="room" class = "headers"  onclick = "createRoom()">Create Room</label>
+			   	 <input id="room" type="text" v-model ="newRoom"></input>
+        			
+				<span> Select Room : 
+			   		<select id="type" class="form=control" v-model="login_type">
+					<option v-for="room in rooms" :value="chosenRoom">{{ room }}</option>
+					</select>
+				</span>
 
-			  <p> Select Room</p>
-			   <select id="type" class="form=control" v-model="login_type">
-						<option v-for="room in rooms" :value="chosenRoom">{{ room }}</option>
-				</select>
+        		</div>
+		</div>
 
-        <div class = "headers" >
-			<label for="room" class = "headers"  @click = "createRoom">Create Room</label>
-            <input id="room" type="text" v-model ="newRoom"></input>
-
-        </div>
-
-
-				<div v-if= "chosenRoom != ''">
-					<p>Number of Players: {{ client_count }}</p>
+				<div class = "chat"  v-if= "chosenRoom != ''">
+					<!--<p>Number of Players: {{ client_count }}</p>-->
 						<input type="text" v-model="new_message" value="" />
 						<button type="button" @click="SendMessage">Send</button>
 						<br />
@@ -64,8 +68,88 @@
 				   </div>
 
 	</div>
+	<div v-if = "show_type == 'about'">
+	<h3 @click = "loginPage"> Login </h3>
+		<div id="backStory">
+		<h2>About the Project</h2>
+		<p>
+		For this project, we tried to create a game of pong that can both be used on a single computer and via web server. We did this by using a server at the University of St. Thomas, nodejs
+    , and phaser api. Using these we were able to make 3 different types of game play. 
+    Type 1: Pong with blocks. This type encourages user to try to destory the most amount of blocks possible. This is also the one that is on the score board. 
+    Type 2: Multiplayer pong. This allows people on a single computer to play against a person in real life.
+    Type 3: Time Challenge pong. This is a single player game of pong against a wall. The goal is to get the longest time.</p>
+		<h2>About the Students</h2>
+		<h3>Leah Emerson</h3>
+		<img src="Leah.JPG" alt="Leah Emerson"/>
+		<p>
+          She is a Junior Computer Science Student at the University of St. Thomas. She spends her time researching image compression utilizing the GPU</li>
+           She also spends her free pursuing photography.
+		</p>
+		<h3>Rebecca Lewis</h3>
+		<img src="RebeccaOffical1x.jpg" alt="Rebecca Lewis"/>
+		<p>
+			Rebecca went to the University of St. Thomas.
+			There she joined multiple clubs: Fencing Club, Anime Society, Table Top Gaming Club, Japanese Culture Club, and the Math and Actural Science Club.
+			She even became the Volunteer Cordinator for the Table Top Gaming Club her senior year.
+			Not only was she active in clubs, she also worked 2 jobs on campus.
+			She worked at the University of St. Thomas's dining services for all 4 years and at the University of St. Thomas's Residence Life for 2 years.
+			During this time, she was a full time student that did multiple statistical projects and completed her goal of being a very active student.
+		</p>
+		</br>
+		</br>
+		</br>
+		</br>
+		</br>
+		</br>
+		</br>
+	</div>
+	<div id="Video">
+		<h2>Demo Video</h2>
+		//<iframe width="100%" height= "560" src="https://www.youtube.com/embed/jF4dsVOSEfM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+		</br>
+		//<a href="https://www.youtube.com/watch?v=jF4dsVOSEfM&feature=youtu.be"><h4>LINK TO THE VIDEO</h4></a>
+	</div>
+		</br>
+		</br>
+	<div id="Interesting Findings">
+		<h2> Interesting Findings</h2>
+		<ol>
+			
+			</ol>
+	</div></br>
 
 
+	<div>
+	</div>
+</div>
+	<div v-if = "show_type== 'leaderProfile'">
+		  <h3> <button><span style="display: inline-block; width:20rem;" @click = "getLeaderBoard"> LeaderBoard </button></h3>	
+                       <span> <button @click = "getProfile()">{{leaderUser}} <button> <span>
+          
+                <table>
+                <tr>
+                <p><span class = "headers"  style="display: inline-block; width:20rem;"> Game History:</span><span class =" headers"> Best Score: {{leaderBestScore}}</span> </p>
+                </tr>
+                <tr>
+                <table>
+                        <tbody v-for = "index in 4">
+                  <tr>
+                    <td>
+                      <p>
+                     <span style="display: inline-block; width: 20rem;">
+                        {{statisticsLeader[index-1].Date}} : </span>
+                        {{statisticsLeader[index-1].Value}}
+                      </p>
+                    </td>
+                  </tr>
+             </tbody>
+         </table>
+        </tr>
+        </table>
+
+
+
+</div>
 	<!-- LEADERBOARD -->
 	<div v-if = "show_type == 'leaders'">
 	<table>
@@ -81,8 +165,8 @@
 		<tbody v-for = "index in 4" :username = "leaders[index-1].username">
             		<tr>
                			<td >
-                     				 <span style="display: inline-block; width: 20rem;" class = "headers" value ="username">
-                      				<button  @click  ="getProfile">{{leaders[index-1].username}} </button>  </span>
+                     				 <span style="display: inline-block; width: 20rem;" class = "headers">
+                      				<button  @click  ="getLeaderProfile(index-1)">{{leaders[index-1].username}} </button>  </span>
 						{{leaders[index-1].BestScore}}
                    		</td>
                   </tr>
@@ -90,10 +174,7 @@
 	</td>
 	</table>
 	</div>
-
 	<div v-if = "show_type == 'profile'">
-
-
 		 <div class = "headers"  class="form-group row">
 			<span> <img   v-bind:src ="imageUrl"  alt="Profile Image" height="42" width="42"> <button @click = "getProfile()">{{ search_results[0]}} <button> <span>
 			<button><span style="display: inline-block; width:20rem;" @click = "getLeaderBoard"> LeaderBoard </button>
@@ -124,23 +205,24 @@
 		<button ><img src ="assets/profile1.jpg" @click =GetProfileUrl(0) > </button>
 		<button ><img src ="assets/profile2.jpg" @click =GetProfileUrl(1) > </button>
 		<button ><img src ="assets/profile3.jpg" @click =GetProfileUrl(2) ></button>
-		<!--<img src ="assets/profile4.jpg" >
-		<img src ="assets/profile5.jpg" >
-		<img src ="assets/profile6.jpg" >
-		<img src ="assets/profile7.jpg" >
-		<img src ="assets/profile8.jpg" >
-		<img src ="assets/profile9.jpg" >
-		<img src ="assets/profile10.jpg" >
-		<img src ="assets/profile11.jpg" >
-		<img src ="assets/profile12.jpg" >
-		<img src ="assets/profile13.jpg" >
-		<img src ="assets/profile14.jpg" >
-		<img src ="assets/profile15.jpg" >-->
-
+		<button ><img src ="assets/profile4.jpg" @click =GetProfileUrl(3) ></button>		
+		<button ><img src ="assets/profile5.jpg" @click =GetProfileUrl(4) ></button>
+		<button ><img src ="assets/profile6.jpg" @click =GetProfileUrl(5) ></button>
+		<button ><img src ="assets/profile7.jpg" @click =GetProfileUrl(6) ></button>
+		<button ><img src ="assets/profile8.jpg" @click =GetProfileUrl(7) ></button>
+		<button ><img src ="assets/profile9.jpg" @click =GetProfileUrl(8) ></button>
+		<button ><img src ="assets/profile10.jpg" @click =GetProfileUrl(9) ></button>
+		<button ><img src ="assets/profile11.jpg" @click =GetProfileUrl(10) ></button>
+		<button ><img src ="assets/profile12.jpg" @click =GetProfileUrl(11) ></button>
+		<button ><img src ="assets/profile13.jpg" @click =GetProfileUrl(12) ></button>
+		<button ><img src ="assets/profile14.jpg" @click =GetProfileUrl(13) ></button>
+		<button ><img src ="assets/profile15.jpg" @click =GetProfileUrl(14) ></button>
+		<button ><img src ="assets/profile16.jpg" @click =GetProfileUrl(15) ></button>
 	</div>
 	</div>
 
 	</div>
+
     </div>
 
 
