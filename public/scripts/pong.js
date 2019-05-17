@@ -26,7 +26,11 @@ function Init() {
         chat_messages: [],
         rooms: [],
         chosenRoom: "",
-        newRoom : ""
+        newRoom : "",
+	leaderProfile: "",
+	leaderBestScore: 0,
+	leaderUser: "",
+	statisticsLeader: {},
 	},
 	 watch: {
     		firstName: function()
@@ -58,15 +62,15 @@ function Init() {
 		{
 			console.log(this.chosenRoom);
 			join(this.chosenRoom);
-		},
-		new_message: function()
+		}
+		/*new_message: function()
 		{
 			broadcast(this.new_message,choosenRoom);
-		},
-		newRoom: function()
+		}*/
+		/*newRoom: function()
 		{
 			this.chosenRoom = this.newRoom;
-		}
+		}*/
 
 	}
 	});
@@ -80,28 +84,24 @@ function Init() {
     };
     ws.onmessage = (event) =>
     {
-        console.log(event.data);
-        var message = JSON.parse(event.data);
-        if(message.msg === "client_count")
+        console.log("client side here: "  +event.data);
+       // var message = JSON.parse(event.data);
+	//console.log("client side here: "  +message);
+	//console.log("client side here: "  +message.msg);
+        /*if(message.msg === "client_count")
         {
                 app.client_count = message.data;
-        }
-        else if(message.msg === "text") {
-                app.chat_messages.push(message.data);
-        }
-        function send() {
-    			ws.send(app.new_message);
-		}
-		function broadcast(msg, room)
-		{
-			ws.send(JSON.stringify({room:room,msg:msg}))
-		}
+        }*/
+           app.chat_messages.push(event.data);
+       /* function send() {
+    		ws.send(app.new_message);
+	}*/
 
 	}
 
 function createRoom(){
 
-	//app.chosenRoom = app.newRoom;
+	app.chosenRoom = app.newRoom;
 	app.rooms.push(app.newRoom);
 }
 function join(room)
@@ -109,7 +109,20 @@ function join(room)
 	ws.send(JSON.stringify({join:room}));
 	console.log(room);
 }
+function SendMessage(){
+	ws.send(JSON.stringify({room:app.chosenRoom, msg:app.new_message}));
+}
+function broadcast(msg, room)
+{
+     ws.send(JSON.stringify({room:room,msg:msg}))
+ }
 
+function aboutPage(event){
+	app.show_type = 'about';
+}
+function loginPage(event){
+        app.show_type = 'search';
+}
 function LoginSearch(event) {
     if (app.username !== "") {
         GetJson(app.login_type + "?" + app.username + "?" + app.password).then((data) => {
@@ -160,6 +173,7 @@ function updateBestScore(event)
 function getLeaderBoard(event){
     GetJson("/LeaderBoard").then((data) => {
         app.leaders = data;
+	console.log(data);
 	app.show_type = 'leaders';
        	console.log(app.leaders);
        	app.leaders.sort(function(a, b){return b.BestScore - a.BestScore});
@@ -168,7 +182,7 @@ function getLeaderBoard(event){
     }, "json");
 }
 function getProfile(user){
-	console.log("CLicked user" +user);
+	console.log("CLicked user" +user);       
 	GetJson("/Profile" + "?" + app.username).then((data) => {
         app.statistics =data;
 	app.statistics = app.statistics.reverse();
@@ -176,6 +190,22 @@ function getProfile(user){
         app.show_type = 'profile';
         console.log("PROFILE DATA: " + app.statistics);
     }, "json");
+}
+function getLeaderProfile(user)
+{
+	console.log("leader profile clicked" +user + app.leaders[user].username);
+	 GetJson("/Profile" + "?" + app.leaders[user].username).then((data) => {
+	
+	 app.statisticsLeader =data;
+	app.leaderUser = app.leaders[user].username;
+	app.leaderBestScore = app.leaders[user].BestScore;
+        app.statisticsLeader = app.statisticsLeader.reverse();
+        app.show_type = 'leaderProfile';
+        console.log("PROFILE DATA: " + app.statisticsLeader);
+    }, "json");
+
+
+
 }
 function GetUser(user) {
     	GetJson(user).then((data) => {
@@ -1395,10 +1425,10 @@ function InitGame()
 {
 	var config = {
 		type: Phaser.WEBGL,
-		width: 800,
-		height: 600,
+		width: 760,
+		height: 570,
 		parent: 'gameCanvas',
-		scene: [Preloader, MainMenu, gamecreate, GameOver, GameOver2,GameOver3,Pong,/* Pong2,*/ Pong3],
+		scene: [Preloader, MainMenu, gamecreate, GameOver/* GameOver2*/,GameOver3,Pong,/* Pong2,*/ Pong3],
 		physics: {
 			default: 'arcade'
 		},
