@@ -139,7 +139,7 @@ app.get('/NewUser', (req, res) => {
 		else
 		{
 			console.log("new user");
-			db.all('INSERT INTO logins VALUES (?, ?, ? ,?, ?)',[username,rstr_md5(password), [], 0, 0], (err,res) =>
+			db.all('INSERT INTO logins VALUES (?, ?, ? ,?, ?)',[username,rstr_md5(password), [], 0, 'public/assets/profile1.jpg'], (err,res) =>
 			{
 				if(err)
 				{
@@ -175,6 +175,7 @@ app.get('/Profile', (req, res) => {
     var req_url = url.parse(req.url);
     var query = decodeURI(req_url.query).replace(/\*/g, '%');
     var username = query.split('?')[0];
+	console.log("user: " +username);
     db.all('SELECT *  FROM Stats WHERE Username = ?',[username], (err, rows) => {
         if (err) {
             console.log(err);
@@ -244,90 +245,42 @@ app.get('/UpdateBestScore', (req, res) => {
         }
     });
 });
-
+//adapted from example
 var client_count =0;
 var clients = {};
 var wss = new WebSocket.Server({server: server});
 var messages = [];
 wss.on('connection', (ws) => {
 	ws.room=[];
-	ws.send(JSON.stringify({msg:"user joined"}));
+	ws.send("user joined");
 	console.log('connected');
 
 	ws.on('message', message=>{
-		console.log('message: ',message);
 
-		var messag=JSON.parse(message);
+		var messageParse=JSON.parse(message);
 
-		if(messag.join)
+		if(messageParse.join)
 		{
-			ws.room.push(messag.join)
+			//if joinging room add to room array
+			ws.room.push(messageParse.join)
 		}
-		if(messag.room){broadcast(message);}
-		if(messag.msg)
-		{
-			console.log('message: ',messag.msg)}
-	})
+		if(messageParse.room){
+			//if sending message broadcast message to those in room
+			broadcast(messageParse);
+		}
 
-	ws.on('error',e=>console.log(e))
-	ws.on('close',(e)=>console.log('websocket closed'+e))
+		ws.on('close',(e)=>console.log('websocket closed'+e))
 
-	})
-
-	function broadcast(message){
-	wss.clients.forEach(client=>{
-	if(client.room.indexOf(JSON.parse(message).room)>-1)
-	{
-		client.send(message)
-	}
-	})
-}
-    /*var client_id = ws._socket.remoteAddress + ":" + ws._socket.remotePort;
-    console.log('New connection: ' + client_id);
-    clients[client_id] = ws;
-        client_count++;
-    ws.on('message', (message) => {
-        console.log('Message from ' + client_id + ': ' + message);
-        var chat = {msg: 'text', data: message};
-        messages.push(message);
-        BroadCast(JSON.stringify(chat));
-    });
-    ws.on('close', () => {
-        console.log('Client disconnected: ' + client_id);
-        delete clients[client_id];
-        client_count--;
-         var id;
-        var message = {msg: 'client_count', data: client_count};
-        for (id in clients) {
-        if (clients.hasOwnProperty(id)) {
-            clients[id].send(JSON.stringify(message));
-                UpdateClientCount();
-          }
-         }
-    });
-        UpdateClientCount();
-        SendHistoricalChats(ws);
+	});
 });
-function UpdateClientCount(){
-        var id;
-        var message = {msg: 'client_count', data: client_count};
-        BroadCast(JSON.stringify(message));
+function broadcast(messageParse){
+	wss.clients.forEach(client=>{
+	if(client.room.indexOf(messageParse.room)>-1)
+	{
+		client.send(messageParse.msg);
+	}
+	});
 }
-function BroadCast(message)
-{
-        var id;
-        for(id in clients) {
-                if (clients.hasOwnProperty(id)){
-                        clients[id].send(message);
-                }
-        }
-}
-function SendHistoricalChats(ws)
-{
-        var historical = {msg: 'historical' ,data: messages};
-        ws.send(JSON.stringify(historical));
-}
-*/
 
 
 
